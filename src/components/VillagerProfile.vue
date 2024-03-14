@@ -52,11 +52,11 @@ const props = defineProps<{
       >
         {{ data?.nh_details?.hobby ?? 'Not specified' }}
       </VillagerInfo>
-      
+
       <!-- Birthday -->
       <VillagerInfo
         type="birthday"
-        :is-defined="typeof data?.birthday_month !== 'undefined' && typeof data?.birthday_day !== 'undefined'"
+        :is-defined="data?.birthday_month !== '' && data?.birthday_day !== ''"
       >
         {{ data?.birthday_month && data?.birthday_day ? `${data.birthday_month} ${data.birthday_day}` : 'Unknown' }}
       </VillagerInfo>
