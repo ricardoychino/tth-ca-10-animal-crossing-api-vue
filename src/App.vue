@@ -9,6 +9,7 @@ import { RequestError } from '@/types/RequestError'
 import Loading from '@/components/Loading.vue'
 import ErrorPanel from '@/components/ErrorPanel.vue'
 import VillagerProfile from '@/components/VillagerProfile.vue'
+import RefreshButton from '@/components/RefreshButton.vue'
 import VillagerCard from '@/interfaces/VillagerCard.vue'
 
 const isLoading: Ref<boolean> = ref(true)
@@ -23,6 +24,9 @@ const selectedVillager = computed(() => {
   return villagers.value[selectedIndex.value]
 })
 
+const updateIndex = () => {
+  selectedIndex.value = Math.floor(Math.random() * (villagers.value.length - 1))
+}
 
 const fetchVillagers = () => {
   axios.get('https://api.nookipedia.com/villagers', {
@@ -38,7 +42,7 @@ const fetchVillagers = () => {
   .then(resp => {
     villagers.value = resp.data
 
-    selectedIndex.value = Math.floor(Math.random() * (villagers.value.length - 1))
+    updateIndex()
   })
   .catch(err => {
     if (err.response.data) {
@@ -63,6 +67,8 @@ onMounted(() => {
 <template>
   <main>
     <VillagerCard>
+      <RefreshButton @click="updateIndex"/>
+
       <!-- Loading -->
       <Loading v-show="isLoading" />
 
