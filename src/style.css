@@ -1,0 +1,234 @@
+
+.spinner_S1WN{
+  animation:spinner_MGfb .8s linear infinite;animation-delay:-.8s}.spinner_Km9P{animation-delay:-.65s}.spinner_JApP{animation-delay:-.5s}@keyframes spinner_MGfb{93.75%,100%{opacity:.2}
+}
+:root {
+  --vilager-border-blue: #89cff0;
+  --vilager-border-pink: #ffc1cc;
+  --primary-background: #fdf8e7;
+  --primary-text: #6b5c43;
+  --species-background: #ffa500;
+  --personality-background: #107896;
+  --hobby-background: #9a2617;
+  --birthday-background: #829356;
+  --tom-nook-color: #945e52; /* Colorpicked */
+  /* SVGs */
+  --species-svg: url('src/assets/paw-print.svg');
+  --personality-svg: url('src/assets/personality.svg');
+  --birthday-svg: url('src/assets/birthday-cake.svg');
+  --hobby-education-svg: url('src/assets/Education.svg');
+  --hobby-fashion-svg: url('src/assets/Fashion.svg');
+  --hobby-fitness-svg: url('src/assets/Fitness.svg');
+  --hobby-music-svg: url('src/assets/Music.svg');
+  --hobby-nature-svg: url('src/assets/Nature.svg');
+  --hobby-play-svg: url('src/assets/Play.svg');
+}
+
+#loading {
+  margin-top: 80px;
+  text-align: center;
+}
+/* Loading SVG properties */
+.spinner_S1WN {
+  fill: var(--tom-nook-color);
+}
+
+* {
+  box-sizing: border-box;
+  color: var(--primary-text);
+}
+body {
+  margin: 0;
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+}
+main {
+  display: flex;
+  padding: 120px 20px 60px;
+  min-height: 100vh;
+  background-image: url('src/assets/animal-crossing-bg.jpg');
+  background-size: cover;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+}
+
+#villager-data {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  width: 432px;
+  height: 691px;
+  margin: auto;
+  padding: 30px 15px 290px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px #00000080;
+  background-image: url('src/assets/animal-crossing-wood-bg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.profile {
+  position: relative;
+  margin-bottom: 20px;
+}
+.photo {
+  position: relative; /* Just to apply z-index */
+  height: 6.875rem; /* 110px */
+  width: 6.875rem; /* 110px */
+  /* padding: 20px; */
+  margin: -4.375rem auto -1.25rem; /* -70px auto -20px; */
+  border: 3px solid #000000;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--primary-background);
+  box-shadow: 0 0 15px #00000080;
+  z-index: 1;
+}
+[data-gender="Male"] .photo {
+  border-color: var(--vilager-border-blue);
+}
+[data-gender="Female"] .photo {
+  border-color: var(--vilager-border-pink);
+}
+.photo img {
+  width: 100%;
+}
+.photo img.not-nh {
+  padding: 15px;
+}
+.main {
+  position: relative;
+  padding: 30px 40px;
+  min-height: 120px;
+  background-image: url('src/assets/chat-bubble.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.name {
+  display: inline-block;
+  position: absolute;
+  top: -10px;
+  left: 15px;
+  padding: 5px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+  color: var(--primary-text);
+  background-color: var(--primary-background);
+  box-shadow: 0 0 15px -5px #00000080;
+  transform: rotate(-7.5deg);
+}
+.quote {
+  margin: 0;
+  font-size: 1.125em;
+  font-weight: 700;
+  background-color: var(--primary-background);
+}
+.characteristics .item {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-background); /* Default */
+  margin-bottom: 10px;
+  border: 5px solid #00000026;
+  border-radius: 10px;
+}
+.characteristics label {
+  color: #FFFFFF;
+  margin-left: 15px;
+  font-size: 0.9375em;
+  font-weight: 200;
+}
+.response {
+  flex-basis: 60%;
+  margin-left: auto;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 5px;
+  box-shadow: -2.5px 0 15px -2.5px #00000080;
+  background-color: var(--primary-background);
+}
+.response .unavailable {
+  font-size: 0.85em;
+  font-weight: 200;
+}
+.response img,
+.response .icon {
+  height: 24px;
+  width: 24px;
+  margin-right: 10px;
+  background-size:100% 100%;
+  -o-background-size: 100% 100%;
+  -webkit-background-size: 100% 100%;
+  background-size: cover;
+}
+
+/* For mobile view */
+@media (max-width: 450px) {
+  body {
+    font-size: 14px;
+  }
+  #villager-data {
+    width: calc(100vw - 40px);
+    height: calc(1.6 * (100vw - 40px));
+  }
+  .main {
+    padding: 25px 30px;
+    min-height: 90px;
+  }
+  .name {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+  .response img,
+  .response .icon {
+    height: 20px;
+    width: 20px;
+  }
+}
+
+/* Response background color */
+.characteristics .item[data-type="species"] {
+  background-color: var(--species-background);
+}
+.characteristics .item[data-type="personality"] {
+  background-color: var(--personality-background);
+}
+.characteristics .item[data-type="hobby"] {
+  background-color: var(--hobby-background);
+}
+.characteristics .item[data-type="birthday"] {
+  background-color: var(--birthday-background);
+}
+
+/* Response icons */
+.icon.icon-species {
+  background-image: var(--species-svg);
+}
+.icon.icon-personality {
+  background-image: var(--personality-svg);
+}
+.icon.icon-birthday {
+  background-image: var(--birthday-svg);
+}
+.icon.icon-hobby[data-type="Education"] {
+  background-image: var(--hobby-education-svg);
+}
+.icon.icon-hobby[data-type="Fashion"] {
+  background-image: var(--hobby-fashion-svg);
+}
+.icon.icon-hobby[data-type="Fitness"] {
+  background-image: var(--hobby-fitness-svg);
+}
+.icon.icon-hobby[data-type="Music"] {
+  background-image: var(--hobby-music-svg);
+}
+.icon.icon-hobby[data-type="Nature"] {
+  background-image: var(--hobby-nature-svg);
+}
+.icon.icon-hobby[data-type="Play"] {
+  background-image: var(--hobby-play-svg);
+}
