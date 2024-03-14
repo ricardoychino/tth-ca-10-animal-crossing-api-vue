@@ -1,82 +1,95 @@
 <script setup lang="ts">
+import { onMounted, computed, ref } from 'vue'
+import axios from 'axios'
+
+import type { Ref } from 'vue'
+import type { Villager } from '@/types/Villager'
+import { RequestError } from '@/types/RequestError'
+
+import Loading from '@/components/Loading.vue'
+import ErrorPanel from '@/components/ErrorPanel.vue'
+import VillagerProfile from '@/components/VillagerProfile.vue'
+import VillagerCard from '@/interfaces/VillagerCard.vue'
+
+const isLoading: Ref<boolean> = ref(true)
+const errorData: Ref<RequestError | null> = ref(null)
+const villagers: Ref<Villager[]> = ref([])
+
+const selectedIndex: Ref<number> = ref(0)
+
+const selectedVillager = computed(() => {
+  if (!villagers.value || villagers.value.length == 0) return null;
+
+  return villagers.value[selectedIndex.value]
+})
+
+
+const fetchVillagers = () => {
+  axios.get('https://api.nookipedia.com/villagers', {
+    params: {
+      nhdetails: true
+    },
+    headers: {
+      'X-API-KEY': import.meta.env.VITE_NOOKIPEDIA_API_KEY,
+      'Content-Type': 'application/json',
+      'Accept-Version': '1.0.0'
+    }
+  })
+  .then(resp => {
+    villagers.value = resp.data
+
+    selectedIndex.value = Math.floor(Math.random() * (villagers.value.length - 1))
+  })
+  .catch(err => {
+    if (err.response.data) {
+      errorData.value = err.response.data
+    } else {
+      errorData.value = {
+        title: '',
+        details: `${err.message} (${err.code})`
+      }
+    }
+  })
+  .finally(() => {
+    isLoading.value = false
+  })
+}
+
+onMounted(() => {
+  fetchVillagers()
+})
 </script>
 
 <template>
   <main>
-      <div id="villager-data" data-gender="Male">
-        <!-- Loading -->
-        <div id="loading" style="display: none;">
-          <!-- Loading from https://github.com/n3r4zzurr0/svg-spinners/blob/main/svg-css/3-dots-fade.svg?short_path=f66ee04 -->
-          <svg width="80" height="80" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle class="spinner_S1WN" cx="4" cy="12" r="3"/><circle class="spinner_S1WN spinner_Km9P" cx="12" cy="12" r="3"/><circle class="spinner_S1WN spinner_JApP" cx="20" cy="12" r="3"/></svg>
-        </div>
-        <!-- Error handler -->
-        <div id="error-panel" style="display: none;">
-          <div class="main">
-            <h2>Oops!</h2>
-            <p></p>
-          </div>
-        </div>
-        <!-- Content -->
-        <div id="content" style="display: block;">
-          <div class="profile">
-            <figure class="photo">
-              <img src="https://dodo.ac/np/images/9/94/Ribbot_NH.png" alt="" />
-            </figure>
-            <div class="main">
-              <span class="name">Bud</span>
-              <p class="quote">You're not living unless you're sweating!</p>
-            </div>
-          </div>
-          <div class="characteristics">
-            <div class="item" data-type="species">
-              <label>Species</label>
-              <div class="response">
-                <!-- <img src="assets/img/paw-print.svg" class="item-icon icon-species" /> -->
-                <i class="icon icon-species"></i>
-                <span>Lion</span>
-              </div>
-            </div>
-            <div class="item" data-type="personality">
-              <label>Personality</label>
-              <div class="response">
-                <!-- <img src="assets/img/personality.svg" class="item-icon icon-personality" /> -->
-                <i class="icon icon-personality"></i>
-                <span>Jock</span>
-              </div>
-            </div>
-            <div class="item" data-type="hobby">
-              <label>Hobby</label>
-              <div class="response">
-                <!-- <img src="assets/img/Fitness.svg" class="item-icon" /> -->
-                <i class="icon icon-hobby" data-type="Fitness"></i>
-                <span>Fitness</span>
-              </div>
-            </div>
-            <div class="item" data-type="birthday">
-              <label>Birthday</label>
-              <div class="response">
-                <!-- <img src="assets/img/birthday-cake.svg" class="item-icon icon-birthday" /> -->
-                <i class="icon icon-birthday"></i>
-                <span>August 8</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
+    <VillagerCard>
+      <!-- Loading -->
+      <Loading v-show="isLoading" />
+
+      <!-- Error handler -->
+      <ErrorPanel
+        :errorData="errorData"
+        v-show="errorData"
+      />
+
+      <!-- Content -->
+      <VillagerProfile
+        :data="selectedVillager"
+        v-show="selectedVillager"
+      />
+    </VillagerCard>
+  </main>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 70px 20px 60px;
+  min-height: 100vh;
+  background-image: url('@/assets/animal-crossing-bg.jpg');
+  background-size: cover;
+  background-position: bottom right;
+  background-repeat: no-repeat;
 }
 </style>
