@@ -1,4 +1,4 @@
-## Treehouse Code Adventures: Animal Crossing API
+## Treehouse Code Adventures: Animal Crossing API (Vue.js version)
 
 Create a web application that uses the Nookipedia Animal Crossing API to display information about the game's villagers.
 
@@ -39,6 +39,15 @@ Create a web application that uses the Nookipedia Animal Crossing API to display
 5. Conditionally render the villager's hobby image. 
 
 
+#### How to run
+
+1. `npm install`
+
+2. Create a copy of the file `.env.sample` and remove the `.sample`
+
+3. In the new `.env` file, insert the API key provided by Nookipedia API
+
+4. `npm run dev` to run
 
 
 
